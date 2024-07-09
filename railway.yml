@@ -1,0 +1,7 @@
+services:
+  app:
+    env:
+      FLASK_APP: app.py # Ganti dengan nama file Flask app Anda
+      FLASK_ENV: production
+    commands:
+      - flask run --host=0.0.0.0 --port=$PORT
