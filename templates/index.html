@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot PKKP 2024</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 800px; /* Lebar maksimum kontainer */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .side-container {
+            background-color: #4c70af;
+            color: white;
+            flex: 1;
+            text-align: center;
+            border-right: 1px solid #ccc;
+        }
+        .chat-content {
+            flex: 3;
+            padding: 20px;
+            overflow-y: scroll; /* Memastikan scroll vertikal pada chat content */
+            position: relative; /* Menambahkan posisi relatif untuk button clear */
+        }
+        .chat-header {
+            background-color: #4c70af;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .message {
+            margin: 10px;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #c6e3f8;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background-color: #F0F0F0;
+            align-self: flex-start;
+        }
+        .chat-input {
+            width: calc(100% - 43px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .send-button {
+            width: auto;
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            background-color: #4c70af;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .clear-button {
+            width: auto;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 5px; /* Margin kiri untuk memberi jarak antara tombol */
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="side-container">
+            <h2>Cara Menggunakan Bot:</h2>
+            <p>1. Ketik pertanyaan Anda di kotak pesan.</p>
+            <p>2. Tekan tombol "Kirim" atau tekan Enter untuk mengirim pesan.</p>
+            <p>3. Chatbot akan merespons secara otomatis.</p>
+        </div>
+        <div class="chat-content">
+            <div class="chat-header">
+                <h3>Chatbot PKKP 2024</h3>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    <p><strong>Admin:</strong> Halo! Ada yang bisa saya bantu?</p>
+                </div>
+            </div>
+            <form id="chatForm" onsubmit="sendMessage(event)">
+                <input type="text" id="userInput" class="chat-input" placeholder="Tulis pesan...">
+                <button type="submit" class="send-button">Kirim</button>
+                <button type="button" class="clear-button" onclick="clearChat()">Hapus Pesan</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage(event) {
+            event.preventDefault();
+
+            var userInput = document.getElementById('userInput').value;
+            if (!userInput) return;
+
+            addUserMessage(userInput);
+            document.getElementById('userInput').value = '';
+
+            try {
+                const response = await fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: userInput })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Gagal mendapatkan respons dari server');
+                }
+
+                const data = await response.json();
+                addBotMessage(data.responses);
+            } catch (error) {
+                console.error('Error:', error);
+                addBotMessage('Maaf, terjadi kesalahan dalam proses chat.');
+            }
+        }
+
+        function addUserMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const userMessageHTML = `
+                <div class="message user-message">
+                    <p><strong>Anda:</strong> ${message}</p>
+                </div>
+            `;
+            chatMessages.innerHTML += userMessageHTML;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addBotMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const botMessageHTML = `
+                <div class="message bot-message">
+                    <p><strong>Admin:</strong> ${message}</p>
+                </div>
+            `;
+            chatMessages.innerHTML += botMessageHTML;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function clearChat() {
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
