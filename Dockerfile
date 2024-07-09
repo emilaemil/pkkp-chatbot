@@ -1,11 +1,21 @@
-# Perbaikan penggunaan variabel environment
-ENV NIXPACKS_PATH=/opt/venv/bin:$NIXPACKS_PATH
+# Dockerfile untuk aplikasi Flask
 
-# Perbaikan format ENV
+# Menggunakan base image Python Alpine
+FROM python:3.8-alpine
+
+# Set environment variables
+ENV NIXPACKS_PATH=/opt/venv/bin:$NIXPACKS_PATH
+ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
 
-# Perbaikan perintah python -m venv
-RUN --mount=type=cache,id=s/a4ff7552-1bce-488f-ac91-87d9c475e03d-/root/cache/pip,target=/root/.cache/pip \
-    python -m venv /opt/venv && \
-    . /opt/venv/bin/activate && \
-    pip install -r requirements.txt
+# Membuat direktori kerja di dalam container
+WORKDIR /app
+
+# Menyalin file-file aplikasi ke dalam direktori kerja di dalam container
+COPY . /app/
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Menjalankan aplikasi Flask
+CMD ["flask", "run", "--host=0.0.0.0"]
