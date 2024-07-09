@@ -3,114 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot PKKP 2024</title>
+    <title>PKKP Chatbot</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
+
+        .container {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .instructions {
+            background-color: #e0e0e0;
+            padding: 20px;
+            width: 15%;
+            box-sizing: border-box;
+        }
+
+        .instructions h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            list-style-type: decimal;
+            padding-left: 20px;
+        }
+
         .chat-container {
             display: flex;
             flex-direction: column;
-            width: 800px; /* Lebar maksimum kontainer */
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            overflow: hidden;
+            width: 85%;
         }
-        .side-container {
-            background-color: #4c70af;
-            color: white;
+
+        .header {
+            background-color: #03a84e;
+            border-bottom: 1px solid #ddd;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .chat-messages {
             flex: 1;
-            text-align: center;
-            border-right: 1px solid #ccc;
-        }
-        .chat-content {
-            flex: 3;
             padding: 20px;
-            overflow-y: scroll; /* Memastikan scroll vertikal pada chat content */
-            position: relative; /* Menambahkan posisi relatif untuk button clear */
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
-        .chat-header {
-            background-color: #4c70af;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
+
         .message {
-            margin: 10px;
-            padding: 8px 12px;
-            border-radius: 5px;
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            max-width: 80%;
+            display: inline-block;
         }
-        .user-message {
-            background-color: #c6e3f8;
-            align-self: flex-end;
-        }
+
         .bot-message {
-            background-color: #F0F0F0;
+            background-color: #e0e0e0;
             align-self: flex-start;
+            border-bottom-left-radius: 0;
         }
-        .chat-input {
-            width: calc(100% - 43px);
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin: 10px;
-            font-size: 16px;
+
+        .user-message {
+            background-color: #03a84e;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
         }
-        .send-button {
-            width: auto;
+
+        .input-area {
+            display: flex;
             padding: 10px;
-            margin: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        .input-area button {
+            background-color: #03a84e;
+            color: #fff;
             border: none;
-            background-color: #4c70af;
-            color: white;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 16px;
         }
-        .clear-button {
-            width: auto;
+
+        .input-area button:hover {
+            background-color: #00a120;
+        }
+
+        @media (max-width: 900px) {
+        .container {
+            flex-direction: column;
+        }
+
+        .instructions {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .chat-container {
+            width: 100%;
+            height: calc(100vh - 40vh);
+        }
+        }
+
+        @media (max-width: 600px) {
+        .chat-container {
+            height: 100vh;
+        }
+
+        .chat-messages {
             padding: 10px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-left: 5px; /* Margin kiri untuk memberi jarak antara tombol */
+        }
+
+        .input-area input {
+            padding: 8px;
+        }
+
+        .input-area button {
+            padding: 8px 15px;
+        }
         }
     </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="side-container">
-            <h2>Cara Menggunakan Bot:</h2>
-            <p>1. Ketik pertanyaan Anda di kotak pesan.</p>
-            <p>2. Tekan tombol "Kirim" atau tekan Enter untuk mengirim pesan.</p>
-            <p>3. Chatbot akan merespons secara otomatis.</p>
-        </div>
-        <div class="chat-content">
-            <div class="chat-header">
-                <h3>Chatbot PKKP 2024</h3>
-            </div>
-            <div class="chat-messages" id="chat-messages">
+    <div class="container">
+        <aside class="instructions">
+            <h2>Cara Penggunaan:</h2>
+            <ol>
+                <li>Ketik pertanyaan Anda di kotak pesan.</li>
+                <li>Tekan tombol Kirim untuk mengirim pesan.</li>
+                <li>Chatbot akan merespon secara otomatis.</li>
+            </ol>
+        </aside>
+        <div class="chat-container">
+            <header class="header">
+                <h1>PKKP Chatbot</h1>
+            </header>
+            <main class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
-                    <p><strong>Admin:</strong> Halo! Ada yang bisa saya bantu?</p>
+                    <p>Halo! Apa yang bisa saya bantu hari ini?</p>
                 </div>
-            </div>
-            <form id="chatForm" onsubmit="sendMessage(event)">
-                <input type="text" id="userInput" class="chat-input" placeholder="Tulis pesan...">
+            </main>
+            <form id="chatForm" onsubmit="sendMessage(event)" class="input-area">
+                <input type="text" id="userInput" class="chat-input" type="text" placeholder="Ketikkan pesan Anda...">
                 <button type="submit" class="send-button">Kirim</button>
-                <button type="button" class="clear-button" onclick="clearChat()">Hapus Pesan</button>
-            </form>
+            </footer>
         </div>
     </div>
 
@@ -149,7 +214,7 @@
             const chatMessages = document.getElementById('chat-messages');
             const userMessageHTML = `
                 <div class="message user-message">
-                    <p><strong>Anda:</strong> ${message}</p>
+                    <p>${message}</p>
                 </div>
             `;
             chatMessages.innerHTML += userMessageHTML;
@@ -160,16 +225,11 @@
             const chatMessages = document.getElementById('chat-messages');
             const botMessageHTML = `
                 <div class="message bot-message">
-                    <p><strong>Admin:</strong> ${message}</p>
+                    <p>${message}</p>
                 </div>
             `;
             chatMessages.innerHTML += botMessageHTML;
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function clearChat() {
-            const chatMessages = document.getElementById('chat-messages');
-            chatMessages.innerHTML = '';
         }
     </script>
 </body>
