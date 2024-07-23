@@ -2,4 +2,5 @@ Flask==3.0.3
 numpy
 tensorflow-cpu
 scikit-learn
+keras
 Werkzeug==3.0.0
