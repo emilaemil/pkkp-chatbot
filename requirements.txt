@@ -1,6 +1,6 @@
-Flask
-numpy
+Flask == 3.0.3
+numpy == 1.23.5
 tensorflow-cpu
-scikit-learn
-keras
-Werkzeug
+scikit-learn == 1.2.1
+keras == 3.3.2
+Werkzeug == 3.0.3
