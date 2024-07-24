@@ -1,6 +1,6 @@
 Flask==3.0.3
 keras==2.15.0
 numpy
-scikit-learn
 tensorflow==2.15.0
+scikit-learn
 Werkzeug==3.0.3
