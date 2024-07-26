@@ -77,7 +77,7 @@ To run the application locally, follow these steps:
 
 ## API Testing
 
-You can test the chatbot API by sending a POST request to the /chatbot endpoint with the following JSON format:
+You can test the chatbot API by sending a POST request to the `/chatbot` endpoint with the following JSON format:
 
 ```bash
 {
