@@ -24,59 +24,75 @@ Before running the application, ensure you have all the following dependencies i
 
 ## Installation
 
-1. **Clone Repository**
+To run the application locally, follow these steps:
 
-   ```sh
-   git clone https://github.com/username/repo-name.git
-   cd repo-name
+1. **Clone the repository**:
 
+   ```bash
+   git clone https://github.com/emilaemil/pkkp-chatbot.git
+   cd ML
    ```
 
-2. **Install Depedencies**
+2. **Create a virtual environment**:
 
-   Create and activate a virtual environment (optional but recommended)
+   ```bash
+   python -m venv venv
+   ```
 
-   ````sh
-   git clone https://github.com/username/repo-name.git
-   cd repo-name
+3. **Activate the virtual environment**:
 
-   Install all dependencies using `pip`
-   ```sh
+   - On Windows:
+
+     ```bash
+     venv\Scripts\activate
+     ```
+
+   - On macOS/Linux:
+
+     ```bash
+     source venv/bin/activate
+     ```
+
+4. **Install the dependencies**:
+
+   ```bash
    pip install -r requirements.txt
+   ```
 
-   If you don't have `requirements.txt`, you can create it with
-   ```sh
-   pip freeze > requirements.txt
+## Running the Flask Application
 
-   ````
-
-3. **Provide Model and Dataset**
+1. **Provide Model and Dataset**
 
    Place the `chatbot_model.h5` and `dataset.json` files in your project directory.
 
-## Running the Application
+2. **Run the Flask application**:
 
-To run the Flask application, use the following command:
+   ```bash
+   python app.py
+   ```
 
-````sh
-python app.py
+3. **Access the Application**:
 
-The application will be available at `http://localhost:5000` by default. You can access the user interface through a browser and interact with the chatbot.
+   Open your browser and go to `http://127.0.0.1:5000/` to see the Flask app running.
 
 ## API Testing
 
 You can test the chatbot API by sending a POST request to the /chatbot endpoint with the following JSON format:
-```json
+
+```bash
 {
   "message": "Your message"
 }
+```
 
 The API response will contain the chatbot's response in JSON format:
-```json
+
+```bash
 {
   "responses": "Chatbot's response"
 }
+```
 
 ## Author
+
 - Emila
-````
